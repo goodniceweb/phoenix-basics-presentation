@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Title</title>
+    <title>Rails vs Phoenix</title>
     <meta charset="utf-8">
+    <!-- <style src="/css/fonts.css"></style> -->
     <style>
-      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
-      
+      @import url(/css/fonts.css);
+
       body { font-family: 'Droid Serif'; }
       h1, h2, h3 {
         font-family: 'Yanone Kaffeesatz';
@@ -17,10 +16,19 @@
     </style>
   </head>
   <body>
-    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
-    </script>
+    <script src="/js/remark-latest.min.js"></script>
     <script>
-      var slideshow = remark.create({sourceUrl: 'presentation.md'});
+      var slideshow = remark.create({ratio: '16:9', navigation: {scroll: false}, sourceUrl: 'presentation.md'});
     </script>
+    <style>
+      body { color: #fff; }
+      ol li, ul li { text-align: left !important; }
+      img { border: 5px solid #000; border-radius: 4px; }
+      img.no-border { border: none; border-radius: 0; }
+      h1, h2, h3, h4 { margin: 10px 0; }
+      ol, ul { margin-left: 150px; font-size: 2em; }
+      ul ul{ margin-left: 50px; font-size: 0.8em; }
+      pre { background: #aaa; display: block; padding: 10px; border: 2px solid #000; text-align: left; }
+    </style>
   </body>
 </html>

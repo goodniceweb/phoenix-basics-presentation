@@ -1,186 +1,271 @@
+layout: true
+background-image: url(images/bg.jpg)
 class: center, middle
 
-# The Docker Basics
+---
+
+<img src="images/phoenixframework-logo.png" width="500px" height="500px">
+
+# Phoenix Framework Basics
 
 ---
 
 # Agenda
 
-1. What is Docker?
-2. Reasons
-3. Benefits
-4. Installation
-5. CLI interface
-6. GUI?
+1. Main Features
+2. Similarities and Differences
+3. Pros & Cons
+
+---
+
+# Main Features
+
+- Work on Elixir and Erlang VM
+- Websockets Out of Box
+- Presenters Out of Box
+- Super Modular 
+- Rapid
+
+---
+
+# Similarities
+
+- Web Frameworks
+- MVC
+- Controllers
+- Templates
+- Migrations
+- Support Websockets/Channels
+
+---
+
+# Differences
+
+- Elixir
+- CoffeeScript vs ES6
+- Router Approach
+- Data Management Approach
+- Presenters are required
+
+---
+
+# Main Elixir Differences
+
+### Image or plain code
 
 ???
 
-The Notes
+In Elixir:
+Elixir is a functional, immutable language(stateless modules),there are
+no "objects" as you find in Ruby(so no complex class hierarchies anymore)
+Methods with same name but different number of accepted
+params are different methods.
+Patternt matching - another cool feature (TODO: LEANMORE)
+Strings: "", '' - strings in Ruby. "" - String in Elixir
+'' is an array of chars(TODO: ENSURE)
+
+Meta-programming in Elixir is a lot more powerful and
+the performance cost in runtime is non-existent since
+most meta-programming is done during the compile-phase.
 
 ---
-class: center, middle
 
-# What is Docker?
+# Router in Rails
 
-![Default-aligned image](images/docker-man.min.jpg)
-
-.center[A person employed in a port to load and unload ships]
+### Image or plain code
 
 ---
-class: center, middle
 
-# Are you kidding me?
+# Router in Phoenix
 
-![Default-aligned image](images/google-docker-definition.png)
-
----
-class: center, middle
-
-# Gotcha!
-
-![Default-aligned image](images/google-docker-first-link.png)
-
----
-class: center, middle
-
-# How it works?
-
-![Default-aligned image](images/docker-how-it-works.png)
+### Image or plain code
 
 ???
 
-Docker containers wrap up a piece of software in a complete filesystem
-that contains everything it needs to run: code, runtime, system tools,
-system libraries – anything you can install on a server.
+Pipes you can see. That actually smth. like middlewares.
+But if middleware works with request and response, pipe
+works with connection.
 
-This guarantees that it will always run the same,
-regardless of the environment it is running in.
+Pipes are joined into pipelines, like :browser and :api.
+In Rails 5 you can run `rails new --api myapi` and that
+command creates scaled-down version of Rails without 
+cookies, sessions, CSRF token etc etc. In Phoenix that
+would be ambigious. You just can use different pipelines
+for browser responses and your API.
+
 
 ---
-class: center, middle
 
-# Docker Containers vs Virtual Machine
+# Model in Rails
 
-![Default-aligned image](images/containers-vs-virtual-machines.png)
+---
+
+# Model in Phoenix
 
 ???
 
-### General
+Validations and casting of the data are defined inside
+the changeset method. You provide the existing data
+in addition to the data you are changing, and it will
+produce an `Ecto.Changeset` struct which contains all
+of the information needed to validate and save the record.
+Unlike Rails where you use the class and object instances
+to interact with the database, all of that in Ecto is done
+through a `Repo` module. How? We'll see on the next
+contoller slide.
 
-Containers have similar resource isolation and allocation benefits
-as virtual machines but a different architectural approach allows
-them to be much more portable and efficient.
+#### Cons of Ecto
 
-#### Virtual Machines
+- No has_and_belongs_to_many functionality in Ecto
+  may mean you need to create your own join model which
+  would be unnecessary in Rails. You can then use
+  `has_many :through` to create a similar structure
+- No working HSTORE implementation in Ecto
 
-Each virtual machine includes the application, the necessary binaries
-and libraries and an entire guest operating system -
-all of which may be tens of GBs in size.
+#### How much is different?
 
-#### Containers
-
-Containers include the application and all of its dependencies,
-but share the kernel with other containers. They run as an isolated process
-in userspace on the host operating system. They’re also not tied
-to any specific infrastructure – Docker containers run on any computer,
-on any infrastructure and in any cloud.
-
----
-class: center, middle
-
-# Reasons
-
-1. Learn something new and interest
-2. Everybody uses it (CircleCI, Codeship, etc. etc.)
-3. To enhance your CV
+- No Scope (Storing queries in an another module)
+- No Lazy loading associations (Repo.preload, always if you need)
 
 ---
-class: center, middle
 
-# Docker is Interesting
-
-![Default-aligned image](images/library.jpg)
-
----
-class: center, middle
-
-# Everybody Uses It
-
-![Default-aligned image](images/companies.jpg)
-
----
-class: center, middle
-
-# Even This Guy
-
-![Default-aligned image](images/homeless.jpg)
-
----
-class: center, middle
-
-# Enhance your CV
-
-![Default-aligned image](images/businessman.jpg)
+# Controllers
 
 ???
 
-Or pass an interview
+If I were to describe the main differences between
+controllers in Rails and those in Phoenix, I would
+say that they are a little simpler and a bit more
+explicit in Phoenix.
+There are no filters, no actions, just plugs.
+There is a single conn struct which is passed from
+plug to plug, containing all of the information of
+the entire request, including the params. We add
+or modify this struct as it flows from one plug
+to another.
+In typical controller method, we have to be explicit
+about rendering the view that we want, passing
+the variables we want it to have access to.
 
 ---
-class: center, middle
 
-# Really?
-
-![Default-aligned image](images/will-stephen.png)
-
----
-class: center, middle
-
-![Default-aligned image](images/throlling.jpg)
-
----
-class: center, middle
-
-# Benefits
-
-1. Lightweight services
-2. Flexible DevOps
-3. Reproduce unreproducable
-
----
-class: center, middle
-
-# Lightweight services
+# Websockets/Channels
 
 ???
 
-### Background story
-
-I had a weak comp before but for now still same habits.
-
-I like when my comp don't load unnecessary things
-b/c I can't suppose when exactly I'll need his full power.
-
-I like when I can install some specific software without pain.
+ActionCable (channels) in Rails requires either Redis or
+PostreSQL to handle the pub/sub nature of channels.
+You are welcome to use those with channels in Phoenix as well,
+but they aren’t required due to the concurrent-by-default
+nature of the language.
 
 ---
-class: center, middle
 
-# Flexible DepOps
+# Pros
+
+- Native Websocket Support
+- No Assets Pipeline
+- Concurrency
+- Speed
 
 ???
 
-You want to have n different versions of software product
-in same moment without pain? - Docker!
-
-You want to choose one of a few third party service to connect with your? - Docker!
-
-You want to move all stuff you have over here to over there? - Docker!
-
-[Repeat] You want to save some specific OS configuration
+Uses brunch npm module instead of Assets Pipeline
+Although don't support sass by default. But super easy to fix
+with the sass-brunch module. https://github.com/brunch/sass-brunch
 
 ---
-class: center, middle
 
-# Reproduce unreproducable
+# Cons
 
+- Under Active Development
+- Integrations Support
+- Popularity
+- Complexity (?)
+
+???
+
+Current version 1.2.0. But still under active development.
+You should expect to write a little more code.
+
+---
+
+# Brief Recap
+
+### Cool image
+
+---
+
+# Phoenix is Rapid, Modular MVC Web Framework with Websocket Support and Presenters Out of Box
+
+---
+
+# In Comparing with Rails it Has Similarities
+
+- Web Frameworks
+- MVC
+- Controllers
+- Templates
+- Migrations
+
+---
+
+# In Comparing with Rails it Has Differences
+
+- Elixir
+- CoffeeScript vs ES6
+- Router Approach
+- Data Management Approach
+- Presenters are required
+
+---
+
+# Pros & Cons
+
+## TODO: Two blocks
+
+???
+
+### Pros
+
+- Native Websocket Support
+- No Assets Pipeline
+- Concurrency
+- Speed
+- Ecto
+
+### Cons
+
+- Under Active Development
+- Support Only a Few Integrations
+- Low Popularity
+- High Complexity (?)
+
+---
+
+# What can I read?
+
+- http://www.phoenixframework.org/
+TODO: ADD MORE LINKS
+
+---
+
+# The End
+
+???
+
+If you haven't tried Phoenix yet, please do!
+You won't be disappointment :)
+
+---
+
+# Questions?
+
+???
+
+Based on:
+
+https://blog.codeship.com/comparing-rails-and-phoenix-part-i/
+http://blog.codeship.com/comparing-rails-and-phoenix-part-ii/
+https://medium.com/@stueccles/what-i-learned-migrating-a-rails-app-to-elixir-phoenix-f707436749aa#.wscj8utlj
+https://www.quora.com/Will-Elixir-Phoenix-destroy-Ruby-on-Rails
