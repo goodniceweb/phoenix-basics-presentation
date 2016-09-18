@@ -6,7 +6,7 @@ class: center, middle
 
 <img src="images/phoenixframework-logo.png" width="500px" height="500px">
 
-# Phoenix Framework Basics
+# Comparing Phoenix with Rails. Basics
 
 ---
 
@@ -15,16 +15,44 @@ class: center, middle
 1. Main Features
 2. Similarities and Differences
 3. Pros & Cons
+4. Demo (maybe)
 
 ---
 
 # Main Features
 
-- Work on Elixir and Erlang VM
-- Websockets Out of Box
-- Presenters Out of Box
-- Super Modular 
-- Rapid
+<img class="no-border" src="images/elixir-ruby.png" width="1000px" height="390px">
+
+---
+
+# Work on Elixir and Erlang VM
+
+<img src="images/elixir.jpg" height="195px">
+<img src="images/erlang.png" height="195px" width="220px">
+
+---
+
+# Websockets Out of Box
+
+<img src="images/websocket.png" height="400px" width="400px">
+
+---
+
+# Presenters Out of Box
+
+<img src="images/presenters.png" height="350px" width="550px">
+
+---
+
+# Super Modular 
+
+<img src="images/modular.jpg" height="500px">
+
+---
+
+# Rapid
+
+<img src="images/rapid.jpg" height="330px">
 
 ---
 
@@ -64,6 +92,7 @@ Patternt matching - another cool feature (TODO: LEANMORE)
 Strings: "", '' - strings in Ruby. "" - String in Elixir
 '' is an array of chars(TODO: ENSURE)
 
+(Haven't check if next phrase is true but guess yes)
 Meta-programming in Elixir is a lot more powerful and
 the performance cost in runtime is non-existent since
 most meta-programming is done during the compile-phase.
@@ -190,27 +219,43 @@ You should expect to write a little more code.
 
 ---
 
-# Brief Recap
+<img src="images/recap.jpg">
 
-### Cool image
+???
+
+So let's recap briefly what have we learned so far.
 
 ---
 
-# Phoenix is Rapid, Modular MVC Web Framework with Websocket Support and Presenters Out of Box
+# Phoenix
+
+- Rapid
+- Modular
+- Websocket Support
+- Presenters Out of Box
 
 ---
 
 # In Comparing with Rails it Has Similarities
+
+<img src="images/similarities.jpg">
+
+???
 
 - Web Frameworks
 - MVC
 - Controllers
 - Templates
 - Migrations
+- Support Websockets/Channels
 
 ---
 
 # In Comparing with Rails it Has Differences
+
+<img src="images/differences.png" height="550px">
+
+???
 
 - Elixir
 - CoffeeScript vs ES6
@@ -244,6 +289,21 @@ You should expect to write a little more code.
 ---
 
 # What can I read?
+
+<img src="images/thinking.jpg">
+
+???
+
+I hate when people place links directly into slides. That useless!
+
+---
+
+<img src="images/links.jpg" height="500px">
+
+???
+
+You can find the links I wanna share with you in presenation readme,
+department chat and wiki page description.
 
 - http://www.phoenixframework.org/
 TODO: ADD MORE LINKS
