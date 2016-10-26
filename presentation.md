@@ -63,7 +63,16 @@ class: center, middle
 - Controllers
 - Templates
 - Migrations
-- Support Websockets/Channels
+- Support Websockets
+
+???
+
+On Websockets I wonna mention:
+ActionCable (channels) in Rails requires either Redis or
+PostreSQL to handle the pub/sub nature of channels.
+You are welcome to use those with channels in Phoenix as well,
+but they aren’t required due to the concurrent-by-default
+nature of the language.
 
 ---
 
@@ -79,7 +88,20 @@ class: center, middle
 
 # Main Elixir Differences
 
-### Image or plain code
+|                       | Ruby                                         | Elixir                                |
+|:----------------------|:---------------------------------------------|:--------------------------------------|
+| Characteristics       | Object-oriented, Imperative, Metaprogramming | Functional, Actor Concurrency, Macros |
+| Typing                | Dynamic                                      | Dynamic                               |
+| Concurrency           | N/A                                          | Lightweight Processes                 |
+| Static Analysis       | Not Available                                | Optional Typespecs                    |
+| Interfaces            | Duck Typing                                  | Behaviours & Protocols                |
+| Package Manager       | RubyGems                                     | Hex                                   |
+| Task Runner           | rake                                         | mix                                   |
+| Interactive Shell     | irb                                          | iex                                   |
+| Testing               | RSpec, test-unit, minitest                   | ExUnit                                |
+| Virtual Machine       | YARV                                         | BEAM                                  |
+| Distributed Computing | N/A                                          | Open Telecom Platform (OTP)           |
+
 
 ???
 
@@ -88,9 +110,9 @@ Elixir is a functional, immutable language(stateless modules),there are
 no "objects" as you find in Ruby(so no complex class hierarchies anymore)
 Methods with same name but different number of accepted
 params are different methods.
-Patternt matching - another cool feature (TODO: LEANMORE)
+Patternt matching - another cool feature
 Strings: "", '' - strings in Ruby. "" - String in Elixir
-'' is an array of chars(TODO: ENSURE)
+'' is an array of chars
 
 (Haven't check if next phrase is true but guess yes)
 Meta-programming in Elixir is a lot more powerful and
@@ -99,17 +121,84 @@ most meta-programming is done during the compile-phase.
 
 ---
 
+# Task
+
+```
+# filter only numbers and multiply each of them *2
+arr = [1, false, "hello", 2, true, :world, {a: 3}, nil, 4]
+superfunc(arr)
+# => print hello world
+# => return [2, 4, 8]
+```
+
+---
+
+# Ruby Implementation
+
+```
+def superfunc(arr)
+  arr = arr.select do |i|
+    if i.is_a? Fixnum
+      true
+    else
+      if i.is_a? String
+        puts i
+      end
+      false
+    end
+  end
+  arr.map {|i| i * i}
+end
+```
+
+---
+
+# Elixir Implementation
+
+```
+# TODO: Elixir implementation
+```
+
+???
+
+Joking :) see demo
+
+---
+
 # Router in Rails
 
-### Image or plain code
+```
+resources :users, except: [:edit, :new] do
+  resources :health_records, only: [:index, :create, :update] do
+    resources :enrollments, only: [:index] do
+      collection do
+        get 'direct_index'
+      end
+    end
+    member do
+      get 'photo/:style', action: 'get_profile_photo'
+      post 'create_enrollment_request'
+    end
+  end
+  resources :programs, only: [:index] do
+    collection do
+      get 'direct_index'
+    end
+  end
+end
+```
 
 ---
 
 # Router in Phoenix
 
-### Image or plain code
+```
+TODO: add phoenix code here
+```
 
 ???
+
+Oh common, joking again
 
 Pipes you can see. That actually smth. like middlewares.
 But if middleware works with request and response, pipe
@@ -127,9 +216,22 @@ for browser responses and your API.
 
 # Model in Rails
 
+```
+class HealthRecord < ActiveRecord::Base
+  include Person
+  validates :first_name, :last_name, presence: true, unless: :skip_presence_validation?
+  belongs_to :address
+  has_many :enrollments, dependent: :destroy
+  has_many :programs, through: :enrollments
+  scope :with_parent, ->() { joins([:users]).where('users.id IS NOT NULL') }
+  after_save { send(:sync_name, :user) }
+end
+```
 ---
 
 # Model in Phoenix
+
+TODO
 
 ???
 
@@ -160,6 +262,8 @@ contoller slide.
 
 # Controllers
 
+TODO
+
 ???
 
 If I were to describe the main differences between
@@ -175,18 +279,6 @@ to another.
 In typical controller method, we have to be explicit
 about rendering the view that we want, passing
 the variables we want it to have access to.
-
----
-
-# Websockets/Channels
-
-???
-
-ActionCable (channels) in Rails requires either Redis or
-PostreSQL to handle the pub/sub nature of channels.
-You are welcome to use those with channels in Phoenix as well,
-but they aren’t required due to the concurrent-by-default
-nature of the language.
 
 ---
 
@@ -263,12 +355,6 @@ So let's recap briefly what have we learned so far.
 - Data Management Approach
 - Presenters are required
 
----
-
-# Pros & Cons
-
-## TODO: Two blocks
-
 ???
 
 ### Pros
@@ -306,7 +392,6 @@ You can find the links I wanna share with you in presenation readme,
 department chat and wiki page description.
 
 - http://www.phoenixframework.org/
-TODO: ADD MORE LINKS
 
 ---
 
